@@ -33,6 +33,7 @@ const useFormHandler = (initialValues) => {
         return;
       }
 
+<<<<<<< HEAD
       // Exact length check (e.g., phone number)
       if (rule.length && value?.length !== rule.length) {
         isValid = false;
@@ -45,18 +46,27 @@ const useFormHandler = (initialValues) => {
         rule.email &&
         !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
       ) {
+=======
+      // Email format check
+      if (rule.email && !/^\S+@\S+\.\S+$/.test(value)) {
+>>>>>>> 7018f2bda7a4838a625b5d15f4c547c8290426af
         isValid = false;
         newErrors[field] = `Invalid email format`;
         return;
       }
 
+<<<<<<< HEAD
       // Numeric check (e.g., phone number)
+=======
+      // Numeric check for mobile number
+>>>>>>> 7018f2bda7a4838a625b5d15f4c547c8290426af
       if (rule.numeric && !/^\d+$/.test(value)) {
         isValid = false;
         newErrors[field] = `${field} must be numeric`;
         return;
       }
 
+<<<<<<< HEAD
       // Password complexity check
       if (
         rule.passwordComplexity &&
@@ -68,6 +78,9 @@ const useFormHandler = (initialValues) => {
       }
 
       // Exact match check (e.g., password confirmation)
+=======
+      // Exact match check (e.g., for password confirmation)
+>>>>>>> 7018f2bda7a4838a625b5d15f4c547c8290426af
       if (rule.match && value !== values[rule.match]) {
         isValid = false;
         newErrors[field] = `${field} does not match ${rule.match}`;
