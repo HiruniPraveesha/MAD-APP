@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
+  Image
 } from 'react-native';
 
 const HomeScreen = ({ route, navigation }) => {
@@ -21,32 +22,24 @@ const HomeScreen = ({ route, navigation }) => {
   }, [navigation, username]);
 
   useEffect(() => {
-    const fetchFlights = async () => {
+    const fetchItems = async () => {
       try {
-        const response = await fetch(
-          'https://aerodatabox.p.rapidapi.com/flights/airports/icao/KJFK/2023-12-06T10:00/2023-12-06T12:00?withLeg=true&direction=departure',
-          {
-            method: 'GET',
-            headers: {
-              'X-RapidAPI-Host': 'aerodatabox.p.rapidapi.com',
-              'X-RapidAPI-Key': '79c7a2dbd0msh46aa56531b582ebp160fe2jsn406a3c266b3',
-            },
-          }
-        );
+        // Fetch the latest 5 SpaceX launches
+        const response = await fetch('https://api.spacexdata.com/v4/launches/past?limit=5');
         if (!response.ok) {
-          throw new Error('Failed to fetch flight data.');
+          throw new Error('Failed to fetch data.');
         }
         const data = await response.json();
-        setItems(data.departures || []); // Ensure it doesn't break if data is undefined
+        setItems(data); // Store the array of launches in the state
       } catch (error) {
         console.error(error);
-        alert('Could not fetch flight data. Please try again later.');
+        alert('Could not fetch data. Please try again later.');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchFlights();
+    fetchItems();
   }, []);
 
   const handleItemClick = () => {
@@ -55,10 +48,16 @@ const HomeScreen = ({ route, navigation }) => {
 
   const renderItem = ({ item }) => (
     <View style={styles.card}>
-      <Text style={styles.cardTitle}>Flight: {item.flightNumber}</Text>
-      <Text>From: {item.departure.airport.name}</Text>
-      <Text>To: {item.arrival.airport.name}</Text>
-      <Text>Departure: {item.departure.scheduledTime}</Text>
+      {item.links && item.links.patch && item.links.patch.large && (
+        <Image
+          source={{ uri: item.links.patch.large }}
+          style={styles.cardImage}
+        />
+      )}
+      <Text style={styles.cardTitle}>{item.name}</Text>
+      <Text>{item.details || 'No description available.'}</Text>
+      <Text>Status: {item.success ? 'Success' : 'Failure'}</Text>
+      <Text>Date: {new Date(item.date_utc).toLocaleDateString()}</Text>
       <TouchableOpacity style={styles.cardButton} onPress={handleItemClick}>
         <Text style={styles.cardButtonText}>Click to Count</Text>
       </TouchableOpacity>
@@ -73,10 +72,10 @@ const HomeScreen = ({ route, navigation }) => {
         <FlatList
           data={items}
           renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item) => item.id.toString()}
         />
       ) : (
-        <Text>No flights available.</Text>
+        <Text>No items available.</Text>
       )}
       <TouchableOpacity style={styles.floatingButton}>
         <Text style={styles.floatingButtonText}>Item Click Count: {itemCount}</Text>
@@ -101,6 +100,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 5,
+  },
+  cardImage: {
+    width: '100%',
+    height: 200,
+    borderRadius: 10,
+    marginBottom: 10,
   },
   cardTitle: {
     fontSize: 18,
