@@ -1,9 +1,5 @@
 import React from 'react';
-<<<<<<< HEAD
 import { View, StyleSheet, Alert, Text } from 'react-native';
-=======
-import { View, StyleSheet, Alert } from 'react-native';
->>>>>>> 7018f2bda7a4838a625b5d15f4c547c8290426af
 import InputField from '../components/InputField';
 import Button from '../components/Button';
 import useFormHandler from '../hooks/UseFormHandler';
@@ -22,45 +18,27 @@ const RegisterScreen = ({ navigation }) => {
     const isValid = validate({
       firstName: { required: true },
       lastName: { required: true },
-<<<<<<< HEAD
       mobileNo: { required: true, numeric: true, length: 10 },
       email: { required: true, email: true },
       password: { required: true, passwordComplexity: true },
       reenterPassword: { required: true, match: 'password' },
-=======
-      mobileNo: { required: true },
-      email: { required: true },
-      password: { required: true, minLength: 6 },
-      reenterPassword: { required: true },
->>>>>>> 7018f2bda7a4838a625b5d15f4c547c8290426af
     });
 
     if (!isValid) return;
 
-<<<<<<< HEAD
     // Check if passwords match (This part can be redundant with the match rule)
-=======
-    // Check if passwords match
->>>>>>> 7018f2bda7a4838a625b5d15f4c547c8290426af
     if (values.password !== values.reenterPassword) {
       Alert.alert('Error', 'Passwords do not match');
       return;
     }
 
-<<<<<<< HEAD
     Alert.alert('Registration Successful');
-=======
-    Alert.alert('Registration Successful', JSON.stringify(values));
->>>>>>> 7018f2bda7a4838a625b5d15f4c547c8290426af
     navigation.navigate('Login');
   };
 
   return (
     <View style={styles.container}>
-<<<<<<< HEAD
       <Text style={styles.instructionText}>Please fill all the details below!</Text>
-=======
->>>>>>> 7018f2bda7a4838a625b5d15f4c547c8290426af
       <InputField
         label="First Name"
         value={values.firstName}
@@ -111,7 +89,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     justifyContent: 'center',
-<<<<<<< HEAD
     marginTop : 0
   },
   instructionText: {
@@ -120,8 +97,6 @@ const styles = StyleSheet.create({
     fontWeight: '500', 
     textAlign: 'center', 
     marginBottom:2, 
-=======
->>>>>>> 7018f2bda7a4838a625b5d15f4c547c8290426af
   },
 });
 

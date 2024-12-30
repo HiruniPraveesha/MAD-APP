@@ -1,12 +1,7 @@
 {
   "expo": {
-<<<<<<< HEAD
     "name": "TravelSpace",
     "slug": "TravelSpace",
-=======
-    "name": "App",
-    "slug": "App",
->>>>>>> 7018f2bda7a4838a625b5d15f4c547c8290426af
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
